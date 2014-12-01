@@ -1,0 +1,174 @@
+secrets: secrets.yml
+
+###########################################################################
+#                          Genneral Templates                             #
+#                                                                         #
+###########################################################################
+
+templates:
+  global:
+    regexp:
+      reject:
+        - \b(duo|tri|quadri|tetra|penta)logy\b: {from: title} # Filtert mehrteilige Serien, immer nur eine Episode
+        #- \b3-?D\b: {from: title} # Hab kein 3D TV
+        - \btrailer\b: {from: title} # Filtert Trailer die evtl. wie Filme benannt sind
+        - \b(COMPLETE)\b: {from: title}
+
+    verify_ssl_certificates: no
+
+  nfa:
+    notifymyandroid:
+      apikey: '{{ secrets.nma.apikey }}'
+
+
+
+  pyload:
+    pyload:
+    # use for Pyload-settings
+      api: http://127.0.0.1:8000/api
+      queue: yes
+      username: '{{ secrets.pyload.usr }}'
+      password: '{{ secrets.pyload.pw }}'
+      parse_url: no
+      multiple_hoster: yes
+
+  serien-global:
+    plugin_priority:
+      trakt_lookup: 112
+    metainfo_series: yes
+    thetvdb_lookup: yes
+    #  - language: de
+    trakt_lookup: yes
+
+  serienjunkies:
+    serienjunkies:
+      language: de
+      hoster: ul
+
+  serien-quality:
+    quality:
+      <720p
+
+
+  filme-global:
+    imdb_lookup: yes
+    tmdb_lookup: yes
+    rottentomatoes_lookup: yes
+    proper_movies: yes
+
+##########################################################################
+######                  set EXISTING   series                      #######
+##########################################################################
+  set-existing-series:
+    exists_series:
+      path:
+#        - 'M:/ServerFolders/Videos/Serien/{{series_name}}/Staffel {{series_season|pad(2)}}/{{series_name}} S{{series_season}}E{{series_episode}}'
+        - "M:/ServerFolders/Videos/Serien/'{{series_name}}'/Staffel '{{series_season|pad(2)}}'"
+
+
+
+
+
+##########################################################################
+#####                         Email Templates                    #########
+##########################################################################
+  email:
+    email:
+      from: '{{ secrets.gmail.usrat }}'
+      to: '{{ secrets.gmail.usrat }}'
+      smtp_host: smtp.gmail.com
+      smtp_port: 587
+      smtp_username: '{{ secrets.gmail.usr }}'
+      smtp_password: '{{ secrets.gmail.pw }}'
+      smtp_tls: yes
+      template: accepted
+
+
+
+
+
+######################################################################
+#                    TV Templates                                    #
+#                                                                    #
+######################################################################
+
+  tv-rss:
+    inputs:
+    # serienjunkies with filter subbed
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=1
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=2
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=3
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=4
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=5
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=6
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=7
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=8
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=9
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=10
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=11
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=12
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=13
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=14
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=15
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=16
+    
+
+# tasks                                        
+##########################################################################################################################       
+tasks:
+
+
+  seed_series_db:
+    # The find plugin will find all of your existing episodes
+    #########################################################
+    find:
+      regexp: .*(avi|mkv|mp4)$
+      path: 
+        - 'M:/ServerFolders/Videos/Serien/{{series_name}}/Staffel {{series_season}}'
+      recursive: yes
+    #template: 
+      #- set-existing-series
+      #- set-download-series
+    manual: yes
+    seen: local
+    accept_all: yes
+
+
+
+
+###################################################################
+
+
+
+#     SERIEN english LANGUAGE          #
+######################################
+  series_download_dl:
+    priority: 5
+    # This plugin will search and find and email Serien with Duallanguage from Trakt.tv watchlist
+    rss: '{{ secrets.rss.serien_dl_addr }}'
+    include: '{{ secrets.serien.backfill_yml }}'
+    regexp:
+      reject_excluding
+        - subbed
+    inputs:
+      - trakt_emit:
+          username: '{{ secrets.trakt.usr }}'
+          password: '{{ secrets.trakt.pwd }}'
+          api_key: '{{ secrets.trakt.apikey }}' 
+          position: next
+          context: collected
+          list: '{{ secrets.trakt.series_dl }}'
+    set:
+      quality: <720p
+      specials: no
+      tracking: yes
+    set_series_begin: yes
+    template:
+      - email
+      - serien-global
+      - serienjunkies
+      - no_global
+      - pyload
+      - tv_rss
+    seen: local
+
