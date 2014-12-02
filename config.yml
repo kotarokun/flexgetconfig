@@ -1,1 +1,641 @@
-asdf
+secrets: secrets.yml
+
+###########################################################################
+#                          Genneral Templates                             #
+#                                                                         #
+###########################################################################
+
+templates:
+  global:
+    domain_delay:
+      yahoo.com: 1 seconds
+    regexp:
+      reject:
+        - \b(duo|tri|quadri|tetra|penta)logy\b: {from: title} # Filtert mehrteilige Serien, immer nur eine Episode
+        #- \b3-?D\b: {from: title} # Hab kein 3D TV
+        - \btrailer\b: {from: title} # Filtert Trailer die evtl. wie Filme benannt sind
+        - \b(COMPLETE)\b: {from: title}
+
+    verify_ssl_certificates: no
+
+  nfa:
+    notifymyandroid:
+      apikey: '{{ secrets.nma.apikey }}'
+
+
+
+  pyload:
+    pyload:
+    # use for Pyload-settings
+      api: http://127.0.0.1:8000/api
+      queue: yes
+      username: '{{ secrets.pyload.usr }}'
+      password: '{{ secrets.pyload.pw }}'
+      parse_url: no
+      multiple_hoster: yes
+
+  serien-global:
+    plugin_priority:
+      trakt_lookup: 112
+    metainfo_series: yes
+    thetvdb_lookup: yes
+    #  - language: de
+    trakt_lookup: yes
+
+  serienjunkies:
+    serienjunkies:
+      language: de
+      hoster: ul
+
+  serien-quality:
+    all_series:    
+      quality:
+        <720p
+
+
+  filme-global:
+    imdb_lookup: yes
+    tmdb_lookup: yes
+    rottentomatoes_lookup: yes
+    proper_movies: yes
+
+##########################################################################
+######                  set EXISTING   series                      #######
+##########################################################################
+  set-existing-series:
+    exists_series:
+      path:
+#        - 'M:/ServerFolders/Videos/Serien/{{series_name}}/Staffel {{series_season|pad(2)}}/{{series_name}} S{{series_season}}E{{series_episode}}'
+        - "M:/ServerFolders/Videos/Serien/'{{series_name}}'/Staffel '{{series_season|pad(2)}}'"
+
+
+
+
+
+##########################################################################
+#####                         Email Templates                    #########
+##########################################################################
+  email:
+    email:
+      from: '{{ secrets.gmail.usrat }}'
+      to: '{{ secrets.gmail.usrat }}'
+      smtp_host: smtp.gmail.com
+      smtp_port: 587
+      smtp_username: '{{ secrets.gmail.usr }}'
+      smtp_password: '{{ secrets.gmail.pw }}'
+      smtp_tls: yes
+      template: accepted
+
+
+
+
+
+######################################################################
+#                    TV Templates                                    #
+#                                                                    #
+######################################################################
+
+  tv-rss:
+    domain_delay:
+      yahoo.com: 1 seconds
+    inputs:
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=1
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=2
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=3
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=4
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=5
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=6
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=7
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=8
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=9
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=10
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=11
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=12
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=13
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=14
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=15
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=16
+    
+
+##########################################################################
+#                set downloading series -Templates  NUR DEUTSCH          #
+##########################################################################
+  set-download-series:
+    configure_series:
+      from:
+        trakt_list:
+          username: '{{ secrets.trakt.usr }}'
+          password: '{{ secrets.trakt.pwd }}'
+          api_key: '{{ secrets.trakt.apikey }}'
+          custom: '{{ secrets.trakt.series }}'
+      settings:
+       # quality: <720p
+        begin: S01E01
+
+
+##########################################################################
+#  DUAL          set downloading series -Templates  DUAL LANGUAGE        #
+##########################################################################
+  set-download-series-dl:
+    configure_series:
+      from:
+        trakt_list:
+          username: '{{ secrets.trakt.usr }}'
+          password: '{{ secrets.trakt.pwd }}'
+          api_key: '{{ secrets.trakt.apikey }}'
+          custom: '{{ secrets.trakt.series_dl }}'
+      settings:
+        begin: S01E01
+
+  # No messages about no input/output/whatever.
+  nosumm:
+    disable_builtins:
+      - details          
+  # Several tasks must not mess up with the seen table...
+  noseen:
+    disable_builtins:
+      - seen
+      - seen_info_hash
+    disable_plugin:
+      - seen_movies
+  # ...and/or with the backlog.
+  nofail:
+    disable_builtins:
+      - backlog
+      - remember_rejected
+      - retry_failed
+# tasks                                        
+##########################################################################################################################       
+tasks:
+
+
+  seed_series_db:
+    # The find plugin will find all of your existing episodes
+    #########################################################
+    find:
+      regexp: .*(avi|mkv|mp4)$
+      path: 
+        - "M:/ServerFolders/Videos/Serien"
+      recursive: yes
+    template:
+      - set-download-series-dl
+      #- set-download-series
+    manual: yes
+    accept_all: yes
+
+
+
+
+    # Update our Movieque from Trakt.tv Custom List
+    #################################################
+  trakt_set_Movies:
+    priority: 1
+    trakt_list:
+      username: '{{ secrets.trakt.usr }}'
+      password: '{{ secrets.trakt.pwd }}'
+      api_key: '{{ secrets.trakt.apikey }}'
+      movies: watchlist
+    crossmatch:
+      from:
+        - trakt_list:
+            username: '{{ secrets.trakt.usr }}'
+            password: '{{ secrets.trakt.pwd }}'
+            api_key: '{{ secrets.trakt.apikey }}'
+            strip_dates: yes
+            movies: collection
+      fields:
+        - imdb_id
+      action: reject
+
+    accept_all: yes
+    disable_builtins: [seen]
+    manual: no
+    queue_movies:
+      quality: 720p
+
+
+
+  trakt_delete_movie_from_watchlist:
+    priority: 0
+    template:
+      - noseen
+      - filme-global
+    manual: yes
+    trakt_list:
+      username: '{{ secrets.trakt.usr }}'
+      password: '{{ secrets.trakt.pwd }}'
+      api_key: '{{ secrets.trakt.apikey }}'
+      movies: watchlist
+    crossmatch:
+      from:
+        - trakt_list:
+            username: '{{ secrets.trakt.usr }}'
+            password: '{{ secrets.trakt.pwd }}'
+            api_key: '{{ secrets.trakt.apikey }}'
+            strip_dates: yes
+            movies: collection
+      fields:
+        - imdb_id
+      action: accept
+    trakt_remove:
+      username: '{{ secrets.trakt.usr }}'
+      password: '{{ secrets.trakt.pwd }}'
+      api_key: '{{ secrets.trakt.apikey }}'
+      list: watchlist
+
+
+############################################################################
+  trakt_set_Series:
+    #disable_builtins: [seen]
+    priority: 8
+    template: 
+      - noseen
+      - no_global
+      - serien-global
+    inputs:
+      - trakt_emit:
+          username: '{{ secrets.trakt.usr }}'
+          password: '{{ secrets.trakt.pwd }}'
+          api_key: '{{ secrets.trakt.apikey }}'
+          position: next
+          list: '{{ secrets.trakt.series }}'
+          context: collected
+    set:
+      quality: <720p
+      specials: no
+      tracking: backfill
+    set_series_begin: yes 
+    crossmatch:
+      from:
+        - trakt_list:
+            username: '{{ secrets.trakt.usr }}'
+            password: '{{ secrets.trakt.pwd }}'
+            api_key: '{{ secrets.trakt.apikey }}'
+            strip_dates: yes
+            custom: '{{ secrets.trakt.series_dl }}'
+      fields:
+        - tvdb_id
+      action: reject
+    exists_series: 
+      path: 'M:\ServerFolders\Videos\Serien\{{series_name}}\Staffel {{series_season}}'
+    if:
+      - trakt_list == 'Ended': accept
+    # Creates the settings file for the series plugin - see https://github.com/tarzasai/.flexget/tree/master/plugins
+    create_series_config:
+      set_fields:
+        - begin
+        #- quality
+        - specials
+        - tracking
+      filename: '{{ secrets.serien.yml }}' 
+    accept_all: yes    
+    manual: no
+
+
+
+###################################################################
+
+  trakt_set_Series_dl:
+    priority: 7
+    template: 
+      - no_global
+      - serien-global
+      - noseen
+    inputs:
+      - trakt_emit:
+          username: '{{ secrets.trakt.usr }}'
+          password: '{{ secrets.trakt.pwd }}'
+          api_key: '{{ secrets.trakt.apikey }}' 
+          position: next
+          context: collected
+          list: '{{ secrets.trakt.series_dl }}'
+    set:
+      quality: <720p
+      specials: no
+      tracking: backfill
+    set_series_begin: yes
+    # Creates the settings file for the series plugin - see https://github.com/tarzasai/.flexget/tree/master/plugins
+    create_series_config:
+      set_fields:
+        - begin
+        #- quality
+        - specials
+        - tracking
+      filename: '{{secrets.serien.backfill_yml}}'  
+    accept_all: yes
+    manual: no
+
+
+ #put series in RSS-Feed    
+  ############################################
+  series_download:
+    priority: 2
+    template:
+      - tv-rss
+      - serien-global
+      - serienjunkies
+      - email
+      - pyload
+    include: '{{ secrets.serien.yml }}'
+    configure_series:
+      settings:
+        target: <720p tvrip+
+        upgrade: yes
+        timeframe: 3 days
+        #max_quality: <720p
+        begin: S01E01
+      from:
+        trakt_list:
+          username: '{{ secrets.trakt.usr }}'
+          password: '{{ secrets.trakt.pwd }}'
+          api_key: '{{ secrets.trakt.apikey }}'
+          custom: '{{ secrets.trakt.series }}'
+    log_filter:
+      task:
+        # - by series plugin because episode has already been downloaded
+        - is before begin value of
+        - because regexp 'subbed' matched field 'title'
+    regexp:
+      reject:
+        - 'subbed'
+    set_series_begin: yes
+    make_rss: 
+      file: '{{ secrets.rss.serien_addr }}'
+      link:
+        - input_url
+      days: 14
+      items: -1
+    manual: no
+
+
+
+
+
+  #put series in RSS-Feed    
+  ############################################
+  series_download_dl:
+    priority: 3
+    template:
+      - tv-rss
+      - serien-global
+      - serienjunkies
+      - email
+      - pyload
+    #include: '{{ secrets.serien.backfill_yml }}'
+    configure_series:
+      settings:
+        target: <720p hdtv+
+        upgrade: yes
+        timeframe: 25 hours
+        # max_qualitiy: <720p
+      from:
+        trakt_list:
+          username: '{{ secrets.trakt.usr }}'
+          password: '{{ secrets.trakt.pwd }}'
+          api_key: '{{ secrets.trakt.apikey }}'
+          custom: '{{ secrets.trakt.series_dl }}'
+    log_filter:
+      task:
+        - by regexp plugin because regexp
+        #- because regexp 'subbed'
+    regexp:
+      reject_excluding:
+        - dl
+#    all_series:
+#      parse_only: yes
+    make_rss: 
+      file: '{{ secrets.rss.serien_dl_addr }}'
+      link:
+        - input_url
+      days: 180
+      items: -1
+    manual: no
+
+
+
+
+
+
+#      SERIEN
+##########################################################
+
+#  series_download:
+#    priority: 5
+#   # This plugin will search and find and email Serien from Trakt.tv watchlist
+ ##   rss: '{{ secrets.rss.serien_addr }}'
+ #   include: '{{ secrets.serien.yml }}'
+ #   template:
+ #     #- set-download-series 
+ #     - email
+ #     - serienjunkies
+ #     - serien-global
+ #     - pyload
+ #   set:
+ #     target: <720p hdtv+
+ #     upgrade: yes
+ #     timeframe: 12 hours
+ #   seen: local
+ #   crossmatch:
+ #     from:
+ #       - rss: '{{ secrets.rss.serien_dl_addr }}'
+ #     fields:
+ #       - tvdb_ep_name
+ #     action: reject
+ #   #accept_all: yes
+ #   manual: yes
+
+
+#     SERIEN DUAL LANGUAGE          #
+######################################
+#  series_download_dl:
+#    priority: 4
+#    # This plugin will search and find and email Serien with Duallanguage from Trakt.tv watchlist
+#    rss: '{{ secrets.rss.serien_dl_addr }}'
+#    include: '{{ secrets.serien.backfill_yml }}'
+#    set:
+#      target: <720p hdtv+
+#      upgrade: yes
+#      timeframe: 24 hours
+#    template:
+#      - email
+#      - serien-global
+#      - serienjunkies
+#      - no_global
+#      - pyload
+#    manual: no
+#    #accept_all: yes
+#    seen: local
+
+
+      # Search for the Series from series.yml file on Serienjunkies with the help of a custom yahoo pipe
+  serien-suche:
+    priority: 10
+    template: 
+      - serien-global
+      - serien-quality
+      - email
+      - pyload
+    regexp:
+      reject_excluding:
+        - S\d+E\d+: {from: title}
+        - s\d+e\d+: {from: title}
+
+    
+    include: '{{secrets.serien.yml}}'
+    #include: '{{secrets.serien.backfill_yml}}'
+    regexp:
+     # reject_excluding:
+     #   - dl
+      reject:
+        - \bsubbed\b: {from: title} # Filtert Subbed
+
+    thetvdb_lookup: yes
+    if:
+      - tvdb_status != 'Ended': accept
+    crossmatch:
+      from:
+        - trakt_list:
+            username: '{{ secrets.trakt.usr }}'
+            password: '{{ secrets.trakt.pwd }}'
+            api_key: '{{ secrets.trakt.apikey }}'
+            custom: '{{ secrets.trakt.series_dl }}'
+      fields:
+        - trakt_series_name
+      action: reject
+    discover:
+      what:
+        - emit_series: 
+            backfill: yes
+      from:
+        - search_rss: http://pipes.yahoo.com/pipes/pipe.run?SeasonEpisode={{search_term}}&Serie={{search_term}}&_id=9f4dbb7b87507e5d6db6da1272808902&_render=rss # Search SJ - German
+    # trakt_add and trakt_remove plugins need the series_name field, but trakt_list sets the title field only.
+    manipulate:
+      - series_name:
+          from: title
+    trakt_add:
+      username: '{{ secrets.trakt.usr }}'
+      password: '{{ secrets.trakt.pwd }}'
+      api_key: '{{ secrets.trakt.apikey }}'
+      list: library
+    manual: yes
+
+# flexget --test execute --tasks serien_suche_manual --cli-config "show=The Mentalist S06E16" --disable_tracking
+  serien_suche_manual:
+    priority: 10
+    template: 
+      - serien-global
+      - serien-quality
+      - email
+      - pyload
+    regexp:
+      reject_excluding:
+        - S\d+E\d+: {from: title}
+        - s\d+e\d+: {from: title}
+      reject:
+        - \bsubbed\b: {from: title} # Filtert Subbed
+    #include: '{{secrets.serien.backfill_yml}}'
+    thetvdb_lookup: yes
+    set:
+      quality: "<720p webrip+ xvid+"
+    discover:
+      what:
+        - mock: 
+          - title: $show
+      from:
+        #- search_rss: http://www.ezrss.it/search/index.php?show_name={{search_term}}&season=$season&show_name_exact=false&quality=hdtv&mode=rss
+        - search_rss: http://pipes.yahoo.com/pipes/pipe.run?SeasonEpisode={{search_term}}&Serie={{search_term}}&_id=9f4dbb7b87507e5d6db6da1272808902&_render=rss
+    manipulate:
+      - series_name:
+          from: title
+    trakt_add:
+      username: '{{ secrets.trakt.usr }}'
+      password: '{{ secrets.trakt.pwd }}'
+      api_key: '{{ secrets.trakt.apikey }}'
+      list: library
+    accept_all: yes
+    manual: yes
+
+  film-suche:
+    priority: 6
+    quality: 720p
+    template: 
+      - filme-global
+      - pyload
+      - email
+    discover:
+      what:
+        - emit_movie_queue: yes
+      from:
+        - search_rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9646d5bba3678fe259c5b79eddfc9fcd&_render=rss&search={{search_term}} # HDAREA search
+    trakt_add:
+      username: '{{ secrets.trakt.usr }}'
+      password: '{{ secrets.trakt.pwd }}'
+      api_key: '{{ secrets.trakt.apikey }}'
+      list: library
+    trakt_remove:
+      username: '{{ secrets.trakt.usr }}'
+      password: '{{ secrets.trakt.pwd }}'
+      api_key: '{{ secrets.trakt.apikey }}'
+      list: watchlist
+    movie_queue: yes
+    pyload:
+      queue: no
+    manual: no
+
+  film-re-suche:
+    priority: 6
+    quality: 720p
+    template: 
+      - filme-global
+      - pyload
+      #- email
+      - noseen
+    plugin_priority:
+      manipulate: 129
+    discover:
+      what:
+        - trakt_list:
+            username: '{{ secrets.trakt.usr }}'
+            password: '{{ secrets.trakt.pwd }}'
+            api_key: '{{ secrets.trakt.apikey }}'
+            custom: loadmovieagain
+      from:
+        - search_rss:
+            url: http://pipes.yahoo.com/pipes/pipe.run?_id=9646d5bba3678fe259c5b79eddfc9fcd&_render=rss&search={{search_term}}      #&year=movie_year  HDAREA search
+            #imdb_url: [imdb_nr]
+            other_fields: [imdb_id]
+    manipulate:
+      - imdb_url:
+          from: description
+         
+    trakt_add:
+      username: '{{ secrets.trakt.usr }}'
+      password: '{{ secrets.trakt.pwd }}'
+      api_key: '{{ secrets.trakt.apikey }}'
+      list: library
+    trakt_remove:
+      username: '{{ secrets.trakt.usr }}'
+      password: '{{ secrets.trakt.pwd }}'
+      api_key: '{{ secrets.trakt.apikey }}'
+      list: loadmovieagain
+    pyload:
+      queue: no
+    accept_all: yes
+    manual: yes
+
+
+schedules:
+  - tasks: [series*, trakt_set_Series,serien-suche]
+    schedule:
+      minute: 30
+    #interval:
+    #  hours: 1 
+  - tasks: [trakt_set_Movies, filmsuche]
+    #schedule:
+      #day_of_week: thu
+      #hour: 21-23
+    interval:
+      minutes: 100
+  - tasks: [film-re*]
+    interval:
+      days: 2
