@@ -58,23 +58,23 @@ templates:
     tmdb_lookup: yes
     rottentomatoes_lookup: yes
     proper_movies: yes
-
-##########################################################################
-######                  set EXISTING   series                      #######
-##########################################################################
+  
+    ##########################################################################
+    ######                  set EXISTING   series                      #######
+    ##########################################################################
   set-existing-series:
     exists_series:
       path:
-#        - 'M:/ServerFolders/Videos/Serien/{{series_name}}/Staffel {{series_season|pad(2)}}/{{series_name}} S{{series_season}}E{{series_episode}}'
+        #- 'M:/ServerFolders/Videos/Serien/{{series_name}}/Staffel {{series_season|pad(2)}}/{{series_name}} S{{series_season}}E{{series_episode}}'
         - "M:/ServerFolders/Videos/Serien/'{{series_name}}'/Staffel '{{series_season|pad(2)}}'"
 
 
 
 
 
-##########################################################################
-#####                         Email Templates                    #########
-##########################################################################
+    ##########################################################################
+    #####                         Email Templates                    #########
+    ##########################################################################
   email:
     email:
       from: '{{ secrets.gmail.usrat }}'
@@ -158,12 +158,7 @@ templates:
       - seen_info_hash
     disable_plugin:
       - seen_movies
-  # ...and/or with the backlog.
-  nofail:
-    disable_builtins:
-      - backlog
-      - remember_rejected
-      - retry_failed
+
 # tasks                                        
 ##########################################################################################################################       
 tasks:
@@ -178,7 +173,7 @@ tasks:
         - "M:/ServerFolders/Videos/Serien"
       recursive: yes
     template:
-      - set-download-series-dl
+      #- set-download-series-dl
       #- set-download-series
     manual: yes
     accept_all: yes
@@ -195,6 +190,7 @@ tasks:
       password: '{{ secrets.trakt.pwd }}'
       api_key: '{{ secrets.trakt.apikey }}'
       movies: watchlist
+  # all movies are Collected not needed to download again
     crossmatch:
       from:
         - trakt_list:
@@ -325,9 +321,6 @@ tasks:
     accept_all: yes
     manual: no
 
-
- #put series in RSS-Feed    
-  ############################################
   series_download:
     priority: 2
     template:
@@ -368,11 +361,6 @@ tasks:
     manual: no
 
 
-
-
-
-  #put series in RSS-Feed    
-  ############################################
   series_download_dl:
     priority: 3
     template:
@@ -410,63 +398,6 @@ tasks:
       days: 180
       items: -1
     manual: no
-
-
-
-
-
-
-#      SERIEN
-##########################################################
-
-#  series_download:
-#    priority: 5
-#   # This plugin will search and find and email Serien from Trakt.tv watchlist
- ##   rss: '{{ secrets.rss.serien_addr }}'
- #   include: '{{ secrets.serien.yml }}'
- #   template:
- #     #- set-download-series 
- #     - email
- #     - serienjunkies
- #     - serien-global
- #     - pyload
- #   set:
- #     target: <720p hdtv+
- #     upgrade: yes
- #     timeframe: 12 hours
- #   seen: local
- #   crossmatch:
- #     from:
- #       - rss: '{{ secrets.rss.serien_dl_addr }}'
- #     fields:
- #       - tvdb_ep_name
- #     action: reject
- #   #accept_all: yes
- #   manual: yes
-
-
-#     SERIEN DUAL LANGUAGE          #
-######################################
-#  series_download_dl:
-#    priority: 4
-#    # This plugin will search and find and email Serien with Duallanguage from Trakt.tv watchlist
-#    rss: '{{ secrets.rss.serien_dl_addr }}'
-#    include: '{{ secrets.serien.backfill_yml }}'
-#    set:
-#      target: <720p hdtv+
-#      upgrade: yes
-#      timeframe: 24 hours
-#    template:
-#      - email
-#      - serien-global
-#      - serienjunkies
-#      - no_global
-#      - pyload
-#    manual: no
-#    #accept_all: yes
-#    seen: local
-
-
       # Search for the Series from series.yml file on Serienjunkies with the help of a custom yahoo pipe
   serien-suche:
     priority: 10
@@ -519,7 +450,7 @@ tasks:
       list: library
     manual: yes
 
-# flexget --test execute --tasks serien_suche_manual --cli-config "show=The Mentalist S06E16" --disable_tracking
+  # flexget --test execute --tasks serien_suche_manual --cli-config "show=The Mentalist S06E16" --disable_tracking
   serien_suche_manual:
     priority: 10
     template: 
@@ -533,7 +464,6 @@ tasks:
         - s\d+e\d+: {from: title}
       reject:
         - \bsubbed\b: {from: title} # Filtert Subbed
-    #include: '{{secrets.serien.backfill_yml}}'
     thetvdb_lookup: yes
     set:
       quality: "<720p webrip+ xvid+"
@@ -628,12 +558,7 @@ schedules:
   - tasks: [series*, trakt_set_Series,serien-suche]
     schedule:
       minute: 30
-    #interval:
-    #  hours: 1 
   - tasks: [trakt_set_Movies, filmsuche]
-    #schedule:
-      #day_of_week: thu
-      #hour: 21-23
     interval:
       minutes: 100
   - tasks: [film-re*]
