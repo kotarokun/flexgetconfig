@@ -390,7 +390,7 @@ tasks:
   series_download_dl:
     priority: 3
     template:
-      - tv-rss
+      - tv-rss-dl
       - serien-global
       - serienjunkies
       - email
@@ -415,8 +415,8 @@ tasks:
     regexp:
       reject_excluding:
         - dl
-#    all_series:
-#      parse_only: yes
+    serienjunkies:
+      language: both
     make_rss: 
       file: '{{ secrets.rss.serien_dl_addr }}'
       link:
@@ -584,7 +584,7 @@ schedules:
   - tasks: [series*, trakt_set_Series,serien-suche]
     schedule:
       minute: 30
-  - tasks: [trakt_set_Movies, filmsuche]
+  - tasks: [trakt_set_Movies, film-suche]
     interval:
       minutes: 100
   - tasks: [film-re*]
