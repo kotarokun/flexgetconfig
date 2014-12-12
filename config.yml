@@ -95,7 +95,7 @@ templates:
 #                                                                    #
 ######################################################################
 
-  tv-rss:
+  tv-rss-de:
     domain_delay:
       yahoo.com: 1 seconds
     inputs:
@@ -103,18 +103,43 @@ templates:
       - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=2
       - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=3
       - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=4
-      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=5
-      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=6
-      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=7
-      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=8
-      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=9
-      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=10
-      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=11
-      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=12
-      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=13
-      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=14
-      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=15
-      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=16
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=5', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=6', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=7', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=8', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=9', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=10', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=11', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=12', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=13', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=14', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=15', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=9896d3f18746adc3318df63b67d044ca&_render=rss&page=16', silent: yes }
+
+    
+  tv-rss-dl
+    domain_delay:
+      yahoo.com: 1 seconds
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=1
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=2
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=3
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=4
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=5
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=6', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=7', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=8', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=9', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=10', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=11', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=12', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=13', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=14', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=15', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=16', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=17', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=18', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=19', silent: yes }
+      - rss: { url: 'http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=20', silent: yes }
     
 
 ##########################################################################
@@ -129,7 +154,9 @@ templates:
           api_key: '{{ secrets.trakt.apikey }}'
           custom: '{{ secrets.trakt.series }}'
       settings:
-       # quality: <720p
+        quality: <720p
+        specials: no
+        tracking: backfill
         begin: S01E01
 
 
@@ -145,6 +172,9 @@ templates:
           api_key: '{{ secrets.trakt.apikey }}'
           custom: '{{ secrets.trakt.series_dl }}'
       settings:
+        quality: <720p
+        specials: no
+        tracking: backfill
         begin: S01E01
 
   # No messages about no input/output/whatever.
@@ -272,10 +302,6 @@ tasks:
       fields:
         - tvdb_id
       action: reject
-    exists_series: 
-      path: 'M:\ServerFolders\Videos\Serien\{{series_name}}\Staffel {{series_season}}'
-    if:
-      - trakt_list == 'Ended': accept
     # Creates the settings file for the series plugin - see https://github.com/tarzasai/.flexget/tree/master/plugins
     create_series_config:
       set_fields:
@@ -324,7 +350,7 @@ tasks:
   series_download:
     priority: 2
     template:
-      - tv-rss
+      - tv-rss-dl
       - serien-global
       - serienjunkies
       - email
