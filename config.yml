@@ -84,7 +84,7 @@ templates:
       smtp_username: '{{ secrets.gmail.usr }}'
       smtp_password: '{{ secrets.gmail.pw }}'
       smtp_tls: yes
-      template: accepted
+      template: html
 
 
 
@@ -154,9 +154,6 @@ templates:
           api_key: '{{ secrets.trakt.apikey }}'
           custom: '{{ secrets.trakt.series }}'
       settings:
-        quality: <720p
-        specials: no
-        tracking: backfill
         begin: S01E01
 
 
@@ -172,9 +169,6 @@ templates:
           api_key: '{{ secrets.trakt.apikey }}'
           custom: '{{ secrets.trakt.series_dl }}'
       settings:
-        quality: <720p
-        specials: no
-        tracking: backfill
         begin: S01E01
 
   # No messages about no input/output/whatever.
@@ -203,8 +197,8 @@ tasks:
         - "M:/ServerFolders/Videos/Serien"
       recursive: yes
     template:
-      #- set-download-series-dl
-      #- set-download-series
+      - set-download-series-dl
+      - set-download-series
     manual: yes
     accept_all: yes
 
@@ -350,11 +344,12 @@ tasks:
   series_download:
     priority: 2
     template:
-      - tv-rss-dl
+      - tv-rss
       - serien-global
       - serienjunkies
       - email
       - pyload
+      - set-existing-series
     include: '{{ secrets.serien.yml }}'
     configure_series:
       settings:
@@ -395,6 +390,7 @@ tasks:
       - serienjunkies
       - email
       - pyload
+      - set-existing-series
     #include: '{{ secrets.serien.backfill_yml }}'
     configure_series:
       settings:
@@ -425,6 +421,8 @@ tasks:
       items: -1
     manual: no
       # Search for the Series from series.yml file on Serienjunkies with the help of a custom yahoo pipe
+
+
   serien-suche:
     priority: 10
     template: 
@@ -432,6 +430,7 @@ tasks:
       - serien-quality
       - email
       - pyload
+      - set-existing-series
     regexp:
       reject_excluding:
         - S\d+E\d+: {from: title}
@@ -447,8 +446,6 @@ tasks:
         - \bsubbed\b: {from: title} # Filtert Subbed
 
     thetvdb_lookup: yes
-    if:
-      - tvdb_status != 'Ended': accept
     crossmatch:
       from:
         - trakt_list:
@@ -523,6 +520,7 @@ tasks:
         - emit_movie_queue: yes
       from:
         - search_rss: http://pipes.yahoo.com/pipes/pipe.run?_id=9646d5bba3678fe259c5b79eddfc9fcd&_render=rss&search={{search_term}} # HDAREA search
+        - search_rss: http://pipes.yahoo.com/pipes/pipe.run?_id=befdd9661ba0f407b9bae2fbe1fce097&_render=rss&search={{search_term}}  #cinetopia search
     trakt_add:
       username: '{{ secrets.trakt.usr }}'
       password: '{{ secrets.trakt.pwd }}'
