@@ -42,7 +42,7 @@ templates:
 
   serienjunkies:
     serienjunkies:
-      language: de
+      language: en
       hoster: ul
 
   serien-quality:
@@ -94,8 +94,8 @@ templates:
 
   tv-rss:
     inputs:
-    # serienjunkies with filter subbed
-      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=1
+    # serienjunkies multilanguage
+      - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=1  
       - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=2
       - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=3
       - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=4
@@ -111,7 +111,7 @@ templates:
       - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=14
       - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=15
       - rss: http://pipes.yahoo.com/pipes/pipe.run?_id=aad0b621c66c94c36e88833a1a3456e4&_render=rss&page=16
-    
+
 
 # tasks                                        
 ##########################################################################################################################       
@@ -142,11 +142,9 @@ tasks:
 
 #     SERIEN english LANGUAGE          #
 ######################################
-  series_download_dl:
+  series_download_en:
     priority: 5
-    # This plugin will search and find and email Serien with Duallanguage from Trakt.tv watchlist
-    rss: '{{ secrets.rss.serien_dl_addr }}'
-    include: '{{ secrets.serien.backfill_yml }}'
+    # This plugin will search and find and email Serien with Engish from Trakt.tv watchlist
     regexp:
       reject_excluding
         - subbed
@@ -162,13 +160,12 @@ tasks:
       quality: <720p
       specials: no
       tracking: yes
+      begin: S01E01
     set_series_begin: yes
     template:
       - email
       - serien-global
       - serienjunkies
-      - no_global
       - pyload
       - tv_rss
-    seen: local
-
+    exists_series: 'M:/ServerFolders/Videos/Serien/{{series_name}}/Staffel {{series_season}}'
